@@ -29,5 +29,6 @@ export default function useKeyboard() {
     backward: !!keys["KeyS"],
     left: !!keys["KeyA"],
     right: !!keys["KeyD"],
+    
   };
 }

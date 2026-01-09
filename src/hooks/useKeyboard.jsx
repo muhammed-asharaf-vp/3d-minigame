@@ -1,6 +1,3 @@
-
-
-
 import { useEffect, useState } from "react";
 
 export default function useKeyboard() {
@@ -29,6 +26,5 @@ export default function useKeyboard() {
     backward: !!keys["KeyS"],
     left: !!keys["KeyA"],
     right: !!keys["KeyD"],
-    
   };
 }

@@ -1,6 +1,3 @@
-
-
-
 import { useState } from "react";
 import House from "./House";
 import Player from "./Player";

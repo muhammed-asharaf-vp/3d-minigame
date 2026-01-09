@@ -16,7 +16,7 @@ export default function House({ onBoundsReady }) {
       }
     });
 
-    // 🔍 Calculate house bounds
+    //  Calculate house bounds
     const box = new THREE.Box3().setFromObject(scene);
     const center = box.getCenter(new THREE.Vector3());
 

@@ -8,7 +8,7 @@ export default function App() {
         tabIndex={0}
   onPointerDown={(e) => {
     e.target.focus();
-    e.target.requestPointerLock(); // 🔥 FPS mouse lock
+    e.target.requestPointerLock(); //  FPS mouse lock
   }}
       shadows
       camera={{

@@ -13,13 +13,13 @@ export default function Player({ bounds }) {
   const pitch = useRef(0);
   const raycaster = useRef(new THREE.Raycaster());
 
-  // 🔊 AUDIO
+  //  AUDIO
   const footstep = useRef(null);
   const audioReady = useRef(false);
   const stepTimer = useRef(0);
-  const wasMoving = useRef(false); // 🔥 IMPORTANT
+  const wasMoving = useRef(false); //  IMPORTANT
 
-  // 🎯 SPEED + FOOTSTEP SYNC
+  //  SPEED + FOOTSTEP SYNC
   const SPEED = 1.5;
   const BASE_SPEED = 3;
   const BASE_STEP_INTERVAL = 0.45;
@@ -29,7 +29,7 @@ export default function Player({ bounds }) {
   const WALL_RAY_DISTANCE = 0.4;
 
   // =========================
-  // 🔊 AUDIO SETUP (BRAVE SAFE)
+  //  AUDIO SETUP (BRAVE SAFE)
   // =========================
   useEffect(() => {
     const listener = new THREE.AudioListener();
@@ -64,7 +64,7 @@ export default function Player({ bounds }) {
     };
   }, [camera, gl.domElement]);
 
-  // 🖱 Mouse look
+  //  Mouse look
   useEffect(() => {
     const onMouseMove = (e) => {
       yaw.current -= e.movementX * 0.002;
@@ -79,12 +79,12 @@ export default function Player({ bounds }) {
   useFrame((_, delta) => {
     if (!bounds) return;
 
-    // 🎥 Camera rotation
+    //  Camera rotation
     camera.rotation.order = "YXZ";
     camera.rotation.y = yaw.current;
     camera.rotation.x = pitch.current;
 
-    // 👉 Directions
+    //  Directions
     const forward = new THREE.Vector3();
     camera.getWorldDirection(forward);
     forward.y = 0;
@@ -93,7 +93,7 @@ export default function Player({ bounds }) {
     const right = new THREE.Vector3();
     right.crossVectors(forward, camera.up).normalize();
 
-    // 👉 Input
+    //  Input
     const move = new THREE.Vector3();
     if (keys.forward) move.add(forward);
     if (keys.backward) move.sub(forward);
@@ -103,20 +103,20 @@ export default function Player({ bounds }) {
     const moving = move.lengthSq() > 0;
 
     // =========================
-    // 👉 APPLY MOVEMENT
+    //  APPLY MOVEMENT
     // =========================
     if (moving) {
       move.normalize().multiplyScalar(SPEED * delta);
       const nextPos = camera.position.clone().add(move);
 
-      // 🧱 Bounds
+      //  Bounds
       if (
         nextPos.x >= bounds.minX + WALL_PADDING &&
         nextPos.x <= bounds.maxX - WALL_PADDING &&
         nextPos.z >= bounds.minZ + WALL_PADDING &&
         nextPos.z <= bounds.maxZ - WALL_PADDING
       ) {
-        // 🧱 Wall collision
+        //  Wall collision
         raycaster.current.set(camera.position, move.clone().normalize());
         const wallHits = raycaster.current
           .intersectObjects(scene.children, true)
@@ -133,7 +133,7 @@ export default function Player({ bounds }) {
       }
     }
 
-    // 🔽 Floor detection
+    //  Floor detection
     raycaster.current.set(
       new THREE.Vector3(
         camera.position.x,
@@ -154,7 +154,7 @@ export default function Player({ bounds }) {
     }
 
     // =========================
-    // 👣 FOOTSTEP AUDIO (FIXED)
+    //  FOOTSTEP AUDIO (FIXED)
     // =========================
     if (audioReady.current && moving && footstep.current) {
       const speedFactor = SPEED / BASE_SPEED;
@@ -171,7 +171,7 @@ export default function Player({ bounds }) {
       }
     }
 
-    // 🔴 HARD STOP FOOTSTEP WHEN PLAYER STOPS
+    //  HARD STOP FOOTSTEP WHEN PLAYER STOPS
     if (!moving && wasMoving.current && footstep.current) {
       footstep.current.stop(); // ⛔ IMPORTANT
       stepTimer.current = 0;
